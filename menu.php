@@ -46,6 +46,27 @@
             Usuarios
           </a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2" href="proveedores.php">
+            <svg class="bi">
+              <use xlink:href="#supple" />
+            </svg>
+            Proveedores
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2" href="direcciones_proveedores.php">
+            <svg class="bi">
+              <use xlink:href="#direccion" />
+            </svg>
+            Direccion de proveedores
+          </a>
+        </li>
+
+
+
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-2" href="#">
             <svg class="bi">
@@ -54,6 +75,8 @@
             Reports
           </a>
         </li>
+
+
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-2" href="#">
             <svg class="bi">
