@@ -1,7 +1,7 @@
 <?php
 session_start();
-if((isset($_SESSION["valido"]))and($_SESSION["valido"]=="1")){
-    header("location:dashboard1.php");
+if ((isset($_SESSION["valido"])) and ($_SESSION["valido"] == "1")) {
+  header("location:dashboard1.php");
 }
 ?>
 
@@ -188,15 +188,17 @@ if((isset($_SESSION["valido"]))and($_SESSION["valido"]=="1")){
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
+        <span id="username-error" class="text-danger"></span>
         <input type="text" class="form-control" id="username" placeholder="username" name="username">
         <label for="username">Usuario</label>
       </div>
 
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="pass" name="pass">
+        <span id="pass-error" class="text-danger"></span>
+
+        <input type="password" class="form-control" id="pass" placeholder="pass" name="pass">
         <label for="pass">Password</label>
       </div>
-
 
       <div class="form-check text-start my-3">
         <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
@@ -204,12 +206,92 @@ if((isset($_SESSION["valido"]))and($_SESSION["valido"]=="1")){
           Remember me
         </label>
       </div>
-      <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+      <button class="btn btn-primary w-100 py-2" type="button">Sign in</button>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+
+
     </form>
   </main>
-  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+  <style>
+    .borderError {
+      border: 1px solid #ff0000;
+    }
+  </style>
+
+  <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+  <Script src="js/jquery-3.7.1.js"></Script>
+  <script>
+    $(document).ready(function() {
+      $("#btnValidar").click(function() {
+        let username = $("#username").val();
+        let pass = $("#pass").val();
+        let error = 0;
+
+        if (username == "") {
+          error = 1;
+          $("#username-error").html("Debe introducir un nombre de usuario");
+          $("#username").addClass("borderError");
+        }
+        if (pass == "") {
+          error = 1;
+          $("#pass-error").html("Debe introducir una contraseña");
+          $("#pass").addClass("borderError");
+
+        }
+        if (error == 0) {
+          $.ajax({
+            data: {
+              username: username,
+              pass: pass
+            },
+            method: "POST",
+            url: "verificar.php",
+            success: function(result) {
+              if (result == 0) {
+                $("#errorV").html("usuario o contraseña incorrectos")
+              } else {
+                location.href = "index.php";
+              }
+            }
+          });
+        }
+
+      });
+
+      /*$("#username").change(function() {
+        alert("The text has been changed.");
+      });*/
+
+      $("#username").on('keyup', function() {
+        $("#errorV").html("Usuario no existe");
+        var value = $(this).val().length;
+        if (value > 0) {
+          $("#username-error").html("");
+          $("#username").removeClass("borderError");
+
+        } else {
+          $("#username-error").html("Debe introducir un nombre de usuario");
+          $("#username").addClass("borderError");
+        }
+
+      })
+      $("#pass").on('keyup', function() {
+        $("#errorV").html("");
+        var value = $(this).val().length;
+        if (value > 0) {
+          $("#pass-error").html("");
+          $("#pass").removeClass("borderError");
+
+        } else {
+          $("#pass-error").html("Debe introducir un nombre de usuario");
+          $("#pass").addClass("borderError");
+        }
+
+      })
+
+    });
+  </script>
 </body>
 
 </html>

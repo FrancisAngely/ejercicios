@@ -12,7 +12,7 @@ $query = $mysqli->query($sql);
 
 if ($query->num_rows > 0) {
     //usuario valido
-    $fila=$query->fetch_assoc();
+    $fila = $query->fetch_assoc();
 
     session_start();
     $_SESSION["username"] = $fila["username"];
@@ -20,8 +20,11 @@ if ($query->num_rows > 0) {
     $_SESSION["apellidos"] = $fila["apellidos"];
     $_SESSION["email"] = $fila["email"];
     $_SESSION["valido"] = $fila["valido"];
-    header("location:dashboard1.php");
+    // header("location:dashboard1.php");
+
+    echo 1;
 } else {
     //usuario o contraseña no son correctos
-    header("location:login.php");
+    //header("location:login.php");
+    echo 0;
 }
