@@ -20,8 +20,23 @@
                     <form action="dirproveedor_insert.php" method="post" enctype="multipart/form-data">
 
                         <div class="mb-3">
-                            <label for="id_proveedor" class="form-label">Id proveedor</label>
-                            <input type="text" class="form-control" name="id_proveedor" name="id_proveedor" placeholder="id_proveedor">
+                            <label for="id_proveedor" class="form-label">Proveedor</label>
+                            <select class="form-control" id="id_proveedor" name="id_proveedor">
+                                <option></option>
+
+                                <?php
+                                include("db.php");
+                                $sql = "SELECT `id`, `razon_social`, `nombre_comercial`, `cif`, `formapago`, `created_at`, `updated_at` FROM `proveedores` WHERE 1";
+
+                                $query = $mysqli->query($sql);
+                                if ($query->num_rows > 0) {
+                                    while ($fila = $query->fetch_assoc()) {
+                                ?>
+                                        <option value="<?php echo $fila["id"]; ?>"><?php echo $fila["razon_social"]; ?>-<?php echo $fila["cif"]; ?></option>
+                                <?php }
+                                }
+                                ?>
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -33,7 +48,7 @@
                             <label for="localidad" class="form-label">Localidad</label>
                             <input type="text" class="form-control" name="localidad" name="localidad" placeholder="localidad">
                         </div>
-                                       
+
                         <div class="mb-3">
                             <label for="provincia" class="form-label">Provincia</label>
                             <input type="text" class="form-control" name="provincia" name="provincia" placeholder="provincia">

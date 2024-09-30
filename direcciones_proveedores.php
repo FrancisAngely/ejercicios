@@ -30,7 +30,10 @@
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $sql = "SELECT `id`, `id_proveedor`, `direccion`, `localidad`, `provincia`, `cp`, `created_at`, `updated_at` FROM `direcciones_proveedores` WHERE 1";
+                        $sql="SELECT `direcciones_proveedores`.`id`, `direcciones_proveedores`.`id_proveedor`, `direcciones_proveedores`.`direccion`, `direcciones_proveedores`.`localidad`, `direcciones_proveedores`.`provincia`, `direcciones_proveedores`.`cp`, `direcciones_proveedores`.`created_at`, `direcciones_proveedores`.`updated_at`,`proveedores`.`razon_social` FROM `direcciones_proveedores` ";    
+                        $sql.=" INNER JOIN `proveedores` ON `direcciones_proveedores`.`id_proveedor`=`proveedores`.`id`";
+                       
+
                     $query = $mysqli->query($sql);
                     if ($query->num_rows > 0) {
                         while ($fila = $query->fetch_assoc()) {
