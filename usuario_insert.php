@@ -19,6 +19,10 @@ $sql.=",'".date("Y-m-d h:i:s")."'";
 $sql.=",'".date("Y-m-d h:i:s")."'";
 $sql.=")";
 
-$mysqli->query($sql);
-header("location:usuario.php");
+if($mysqli->query($sql)) echo $mysqli->insert_id;
+else echo 0;
+
+
+
+//header("location:usuario.php");
 ?>

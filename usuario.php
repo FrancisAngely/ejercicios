@@ -29,6 +29,7 @@
                         <th>email</th>
                         <th>acciones</th>
                     </tr>
+
                     <?php
                     $sql = "SELECT `id`, `username`, `pass`, `nombre`, `apellidos`, `email`, `created_at`, `updated_at` FROM `usuarios` WHERE 1";
                     $query = $mysqli->query($sql);
@@ -37,7 +38,7 @@
                             //var_dump($fila);
                             //  echo "<tr><td>".$fila["id"]."</td><td>".$fila["nombre"]."</td><td>".$fila["apellidos"]."</td></tr>";
                     ?>
-                            <tr>
+                            <tr id="fila<?php echo $fila["id"]; ?>">
                                 <td><?php echo $fila["id"]; ?></td>
                                 <td><?php echo $fila["username"]; ?></td>
                                 <td><?php echo base64_encode($fila["pass"]); ?></td>
@@ -47,19 +48,72 @@
                                 <td>
                                     <a href="usuario_edit.php?id=<?php echo $fila["id"]; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
                                     &nbsp;&nbsp;&nbsp;
-                                    <a href="usuario_delete.php?id=<?php echo $fila["id"]; ?>"><i class="fa-solid fa-eraser"></i></a>
+                                    <a href="#" id="btndelete<?php echo $fila["id"]; ?>"><i class="fa-solid fa-eraser"></i></a>
                                 </td>
                             </tr>
+                            <script>
+                                $("#btndelete<?php echo $fila["id"]; ?>").click(function() {
+                                    const swalWithBootstrapButtons = Swal.mixin({
+                                        customClass: {
+                                            confirmButton: "btn btn-success",
+                                            cancelButton: "btn btn-danger"
+                                        },
+                                        buttonsStyling: false
+                                    });
+
+                                    swalWithBootstrapButtons.fire({
+                                        title: "Desea eliminar al usuario?",
+                                        text: "no hay vuelta atrás!",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonText: "Si, borrar!",
+                                        cancelButtonText: "No, mantener!",
+                                        reverseButtons: true
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+
+                                            $.ajax({
+                                                data: {
+                                                    id: <?php echo $fila["id"]; ?>
+                                                },
+                                                method: "GET",
+                                                url: "usuario_delete.php",
+                                                success: function(result) {
+                                                    if (result == 1) {
+                                                        swalWithBootstrapButtons.fire({
+                                                            title: "Eliminado!",
+                                                            text: "Usuario dado de baja",
+                                                            icon: "success"
+                                                        });
+                                                        $("#fila<?php echo $fila["id"]; ?>").hide();
+                                                    } else {
+                                                        swalWithBootstrapButtons.fire({
+                                                            title: "No Eliminado!",
+                                                            text: "Usuario NO dado de baja",
+                                                            icon: "error"
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        } else if (
+                                            /* Read more about handling dismissals below */
+                                            result.dismiss === Swal.DismissReason.cancel
+                                        ) {
+                                            /*   swalWithBootstrapButtons.fire({
+                                                 title: "Cancelled",
+                                                 text: "Your imaginary file is safe :)",
+                                                 icon: "error"
+                                               });*/
+                                        }
+                                    });
+                                });
+                            </script>
                     <?php
                         }
                     }
                     ?>
 
                 </table>
-
-
-
-
             </main>
         </div>
     </div>

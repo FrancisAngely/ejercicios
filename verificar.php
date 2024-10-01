@@ -16,16 +16,15 @@ if ($query->num_rows > 0) {
     $fila = $query->fetch_assoc();
 
     session_start();
-    $_SESSION["username"] = $fila["username"];
-    $_SESSION["nombre"] = $fila["nombre"];
-    $_SESSION["apellidos"] = $fila["apellidos"];
-    $_SESSION["email"] = $fila["email"];
-    $_SESSION["valido"] = $fila["valido"];
-    // header("location:dashboard1.php");
+    $_SESSION["username"]=$fila["username"]; 
+    $_SESSION["nombre"]=$fila["nombre"]; 
+    $_SESSION["apellidos"]=$fila["apellidos"]; 
+    $_SESSION["email"]=$fila["email"]; 
+    $_SESSION["valido"]="1";
+
 
     echo 1;
 } else {
-    //usuario o contraseña no son correctos
-    //header("location:login.php");
+
     echo 0;
 }
