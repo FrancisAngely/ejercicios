@@ -19,5 +19,7 @@ $sql .= ",'" . date("Y-m-d h:i:s") . "'";
 $sql .= ",'" . date("Y-m-d h:i:s") . "'";
 $sql .= ")";
 
-$mysqli->query($sql);
-header("location:direcciones_proveedores.php");
+if($mysqli->query($sql)) echo $mysqli->insert_id;
+else 0;
+//header("location:direcciones_proveedores.php");
+?>
